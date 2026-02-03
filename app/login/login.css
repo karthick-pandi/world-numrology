@@ -13,7 +13,7 @@
 
 .login-page-container {
   min-height: 100vh;
-  background-image: url(../../public/images/login-background.jpg);
+  background-image: url(../../public/Images/login-background.jpg);
   background-position: center;
   background-size: cover;
   position: relative;

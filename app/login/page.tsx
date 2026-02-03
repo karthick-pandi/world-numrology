@@ -1,37 +1,9 @@
-// import "./login.css";
-
-// export default function LoginPage() {
-//   return (
-//     <div className="min-h-screen flex items-center justify-center login-container">
-//       <div className="w-full max-w-sm p-6 bg-white shadow rounded">
-//         <h1 className="text-2xl font-bold mb-4 text-center">Login</h1>
-
-//         <input
-//           type="email"
-//           placeholder="Email"
-//           className="w-full mb-3 p-2 border rounded"
-//         />
-
-//         <input
-//           type="password"
-//           placeholder="Password"
-//           className="w-full mb-4 p-2 border rounded"
-//         />
-
-//         <button className="w-full bg-blue-600 text-white py-2 rounded">
-//           Login
-//         </button>
-//       </div>
-//     </div>
-//   );
-// }
-
 'use client';
 
 import React, { useState, FormEvent } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Image from "next/image";
-import LoginHeaderImage from '@/public/images/login-header.webp';
+import LoginHeaderImage from '@/public/Images/login-header.webp';
 import { User, UserPlus, Eye, EyeOff } from 'lucide-react';
 import '@/app/login/login.css';
 

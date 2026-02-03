@@ -1,0 +1,107 @@
+/* Navbar.module.css */
+.navbarContainer {
+        background-color: rgb(64, 156, 164);
+    height: 42px;
+    padding-top: 5px;
+    padding-right: 10px;
+}
+.navbarRoot {
+  color: #fff;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  z-index: 1000;
+  box-sizing: border-box;
+}
+
+.navbarContent {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  justify-content: flex-start;
+}
+
+.logoSection {
+  display: none;
+}
+.centerBlock {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+
+.menuGroup {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.menuItem {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+.menuItemActive {
+  background: #399fa0;
+}
+.dropdownWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.dropdownMenu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: #fff;
+  color: #333;
+  min-width: 180px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+  border-radius: 4px;
+  margin-top: 4px;
+  padding: 8px 0;
+  z-index: 1001;
+}
+.dropdownItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 20px;
+  cursor: pointer;
+  white-space: nowrap;
+  font-size: 16px;
+  transition: background 0.2s;
+}
+.link {
+  color: #fff;
+  text-decoration: none;
+}
+.iconGroup {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.bellWrapper {
+  position: relative;
+}
+.bellBadge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: #ff4d4f;
+  color: #fff;
+  border-radius: 50%;
+  font-size: 12px;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
