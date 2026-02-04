@@ -1,76 +1,186 @@
-import React, { useState, useRef, useEffect } from "react";
-import Link from "next/link";
-import { FaInfoCircle, FaSignOutAlt, FaCog, FaBell, FaChevronDown, FaAndroid, FaApple } from "react-icons/fa";
-import { MdPhoneIphone } from "react-icons/md";
-import styles from "./Navbar.module.css";
+'use client';
 
-const Navbar = () => {
-    const [appDropdown, setAppDropdown] = useState(false);
-    const appRef = useRef<HTMLDivElement>(null);
+import Image from 'next/image';
+import React, { useEffect, useRef, useState } from 'react';
+import LoginHeaderImage from '@/public/Images/login-header.webp';
+import styles from './Navbar.module.css';
+import { BsInfoCircle } from 'react-icons/bs'; // Info icon
+import { FiLogOut } from 'react-icons/fi'; // Logout icon
+import { IoSettingsOutline } from 'react-icons/io5'; // Settings icon
+import { IoMdNotificationsOutline } from 'react-icons/io';
+import { BsInfoCircleFill } from 'react-icons/bs';
+import { BsBellFill } from 'react-icons/bs';
+const tabs = [
+  'READINGS & CHARTS',
+  'SINGLE READINGS',
+  'SAVED READINGS',
+  'SAVED DATA'
+];
 
-    // Close dropdown on outside click
-    useEffect(() => {
-        function handleClickOutside(event: MouseEvent) {
-            if (appRef.current && !appRef.current.contains(event.target as Node)) {
-                setAppDropdown(false);
-            }
-        }
-        if (appDropdown) {
-            document.addEventListener("mousedown", handleClickOutside);
-        } else {
-            document.removeEventListener("mousedown", handleClickOutside);
-        }
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, [appDropdown]);
+const Navbar: React.FC = () => {
+  const [activeTab, setActiveTab] = useState<string>('SAVED READINGS');
+  const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
 
-    return (
-        <nav className={styles.navbarContainer}>
-            <div className={styles.navbarRoot}>
-                <div className={styles.menuGroup}>
-                    {/* GET THE APP Dropdown */}
-                    <div
-                        ref={appRef}
-                        className={styles.dropdownWrapper}
-                    >
-                        <div
-                            className={`${styles.menuItem} ${appDropdown ? styles.menuItemActive : ""}`}
-                            onClick={() => setAppDropdown((v) => !v)}
-                        >
-                            GET THE APP <FaChevronDown size={12} />
-                        </div>
-                        {appDropdown && (
-                            <div className={styles.dropdownMenu}>
-                                <div className={styles.dropdownItem}>
-                                    <FaAndroid color="#43c97f" size={20} /> Android <FaChevronDown size={12} style={{ marginLeft: "auto", color: "#bbb" }} />
-                                </div>
-                                <div className={styles.dropdownItem}>
-                                    <MdPhoneIphone color="#ff9800" size={20} /> iPhone <FaChevronDown size={12} style={{ marginLeft: "auto", color: "#bbb" }} />
-                                </div>
-                                <div className={styles.dropdownItem}>
-                                    <FaApple color="#e74c3c" size={20} /> Mac
-                                </div>
-                            </div>
-                        )}
-                    </div>
-                    {/* Other menu items */}
-                    <div className={styles.menuItem}>
-                        KARTHICK <FaChevronDown size={12} />
-                    </div>
-                    <Link href="#" className={styles.link}>ACCOUNT/USERS</Link>
-                    <Link href="#" className={styles.link}>UPGRADE</Link>
-                    <FaInfoCircle size={20} style={{ cursor: "pointer" }} />
-                    <FaSignOutAlt size={20} style={{ cursor: "pointer" }} />
-                    <FaCog size={20} style={{ cursor: "pointer" }} />
-                    <div className={styles.bellWrapper}>
-                        <FaBell size={20} style={{ cursor: "pointer" }} />
-                        <span className={styles.bellBadge}>0</span>
-                    </div>
+  const [underlineStyle, setUnderlineStyle] = useState({ left: 0, width: 0 });
+  const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
+
+  useEffect(() => {
+    const activeIndex = tabs.indexOf(activeTab);
+    const activeTabElement = tabRefs.current[activeIndex];
+    if (activeTabElement) {
+      setUnderlineStyle({
+        left: activeTabElement.offsetLeft,
+        width: activeTabElement.offsetWidth,
+      });
+    }
+  }, [activeTab, tabs]);
+
+  return (
+    <nav className={styles.navbar}>
+      {/* Centered Container with Left-Right Spacing */}
+      <div className={styles.navbarContainer}>
+        <div className={styles.navbarFlex}>
+          {/* LEFT SIDE - Logo */}
+          <div className={styles.logoSection}>
+            <Image
+              src={LoginHeaderImage}
+              alt="World Numerology Logo"
+            />
+          </div>
+
+          {/* RIGHT SIDE - Split into Top & Bottom */}
+          <div className={styles.navbarRightSection}>
+            {/* TOP - Green Navigation Bar */}
+            <div className={styles.greenNav}>
+              <div className={styles.navContent}>
+                {/* GET THE APP Dropdown */}
+                <button className={styles.navButton}>
+                  <span>GET THE APP</span>
+                  <span className={styles.dropdownIcon}>▼</span>
+                </button>
+
+                {/* KARTHICK Dropdown */}
+                <button className={styles.navButton}>
+                  <span>KARTHICK</span>
+                  <span className={styles.dropdownIcon}>▼</span>
+                </button>
+
+                {/* ACCOUNT/USERS */}
+                <button className={styles.navButton}>
+                  ACCOUNT/USERS
+                </button>
+
+                {/* UPGRADE */}
+                <button className={styles.navButton}>
+                  UPGRADE
+                </button>
+
+                {/* Icons Section */}
+                <div className={styles.iconSection}>
+                  {/* Info Icon */}
+                  <button className={styles.infoIcon} aria-label="Info">
+
+                    <BsInfoCircleFill size={20} color="white" />
+                  </button>
+
+                  {/* Share Icon */}
+                  <button className={styles.iconButton} aria-label="Share">
+                    <FiLogOut size={20} color="white" />
+                  </button>
+
+                  {/* Settings Icon */}
+                  <button className={styles.iconButton} aria-label="Settings">
+                    <IoSettingsOutline size={20} color="white" />
+                  </button>
+
+                  {/* Notification Bell */}
+                  <button className={styles.iconButton} aria-label="Notifications">
+                    <BsBellFill size={20} color="white" />
+                  </button>
                 </div>
+              </div>
             </div>
-        </nav>
-    );
+
+            {/* BOTTOM - Tabs Section */}
+            <div className={styles.tabSection}>
+              <div className={styles.tabContainer}>
+                {/* Desktop Tabs */}
+                <div className={styles.desktopTabs}>
+                  {tabs.map((tab, index) => (
+                    <button
+                      key={tab}
+                      ref={(el: any) => (tabRefs.current[index] = el)}
+                      onClick={() => setActiveTab(tab)}
+                      className={`${styles.tabButton} ${activeTab === tab ? styles.activeTab : styles.inactiveTab
+                        }`}
+                    >
+                      {tab}
+                    </button>
+
+                  ))}
+
+                  {/* Animated Underline */}
+                  <div
+                    className={styles.underline}
+                    style={{
+                      left: underlineStyle.left,
+                      width: underlineStyle.width,
+                    }}
+                  />
+
+                  {/* Shopping Cart */}
+                  <button className={styles.cartButton} aria-label="Cart">
+                    <span className={styles.cartIcon}>🛒</span>
+                    <span className={styles.cartBadge}>2</span>
+                  </button>
+                </div>
+
+                {/* Mobile Tabs */}
+                <div className={styles.mobileTabs}>
+                  {tabs.map((tab) => (
+                    <button
+                      key={tab}
+                      onClick={() => setActiveTab(tab)}
+                      className={`${styles.mobileTabButton} ${activeTab === tab ? styles.mobileActiveTab : styles.mobileInactiveTab
+                        }`}
+                    >
+                      {tab}
+                      {activeTab === tab && <div className={styles.mobileUnderline} />}
+                    </button>
+                  ))}
+
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile Menu Dropdown */}
+      {mobileMenuOpen && (
+        <div className="lg:hidden bg-[#5db3ac] border-t border-white/20">
+          <div className="max-w-[1400px] mx-auto px-6 py-3 space-y-2">
+            <button className="w-full text-left text-white text-sm py-2">GET THE APP</button>
+            <button className="w-full text-left text-white text-sm py-2">KARTHICK</button>
+            <button className="w-full text-left text-white text-sm py-2">ACCOUNT/USERS</button>
+            <button className="w-full text-left text-white text-sm py-2">UPGRADE</button>
+          </div>
+        </div>
+      )}
+
+      <style jsx>{`
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+        }
+        .scrollbar-hide {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+      `}</style>
+    </nav>
+  );
 };
 
 export default Navbar;

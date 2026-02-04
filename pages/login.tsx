@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Image from "next/image";
 import LoginHeaderImage from '@/public/Images/login-header.webp';
 import { User, UserPlus, Eye, EyeOff } from 'lucide-react';
-import '@/app/login/login.css';
+import './login.css';
 
 const LoginPage: React.FC = () => {
     const [activeTab, setActiveTab] = useState<'login' | 'register'>('login');
