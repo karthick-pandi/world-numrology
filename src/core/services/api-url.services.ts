@@ -1,0 +1,1 @@
+export const API_URL = "https://testsell2.worldnumerology.com/api_dev.php";
