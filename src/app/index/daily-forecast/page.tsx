@@ -14,7 +14,7 @@ const Dashboard: React.FC = ({ }) => {
   const [textSize, setTextSize] = useState<number>(1);
   const [reading, setReading] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  console.log(userResponse)
+  const [cardValue, setCardValue] = useState<string>('dailyforecast');
 
   // useEffect(() => {
   //   const fetchReading = async () => {
@@ -28,25 +28,31 @@ const Dashboard: React.FC = ({ }) => {
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [userResponse, cardValue]);
 
   const getData = async () => {
 
+    if (!userResponse) return;
+    const today = new Date();
+    const current_day = String(today.getDate()).padStart(2, "0");
+    const current_month = String(today.getMonth() + 1).padStart(2, "0");
     const values = {
-      response_data: "dailyforecast",
-      key: "9162e16306cf23fde0f39b3460698ae5a0bdc278fea867d1b6618c468ab15e",
-      user_id: 65825,
-      first_name: "testuser",
-      birth_month: "05",
-      birth_day: "02",
+      responce_data: cardValue,
+      key: userResponse.data.logintoken,
+      user_id: userResponse.data.user_id,
+      first_name: userResponse.data.curnt_first_name,
+      birth_month: userResponse.data.bmonth,
+      birth_day: userResponse.data.bday,
       current_year: 2026,
-      current_month: "02",
-      current_day: "05",
+      current_month: current_month,
+      current_day: current_day,
     };
-
     try {
       const response = await services.create(API_URL, values);
-      console.log(response);
+     console.log("response::", response);
+      setReading(response);
+      setLoading(false);
+    
     } catch (error) {
       console.log("err::", error);
     } finally {
@@ -93,13 +99,13 @@ const Dashboard: React.FC = ({ }) => {
                       style={{ fontSize: `${textSize * 2.2}rem` }}
                       className="text-[#2D1B5E] font-black leading-none uppercase tracking-tight text-left"
                     >
-                      {loading ? 'CALCULATING...' : reading?.headline}
+                      {loading ? 'CALCULATING...' : reading?.title}
                     </h2>
                   </div>
                 </div>
 
                 <div className="text-left w-full space-y-4" style={{ fontSize: `${textSize * 0.95}rem` }}>
-                  <p className="font-bold text-gray-500">Hello Saravana, today's numbers are 8, 26, 1, 7</p>
+                  <p className="font-bold text-gray-500">{reading?.desc}</p>
                   {loading ? (
                     <div className="animate-pulse space-y-2">
                       <div className="h-4 bg-gray-200 rounded w-full"></div>
@@ -138,7 +144,7 @@ const Dashboard: React.FC = ({ }) => {
             </div>
             <div className="sub-cards p-4">
               {READING_CARDS.map((card, i) => (
-                <div key={i} className="d-flex align-items-center flex-column cards text-center">
+                <div key={i} className="d-flex align-items-center flex-column cards text-center" onClick={() => setCardValue(card.value)}>
                   <div className="d-flex align-items-center justify-content-center position-relative cards-img">
                     <div className={`${card.color} absolute inset-0 opacity-100`}></div>
                     <div className="relative z-10 text-white">

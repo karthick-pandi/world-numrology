@@ -1,6 +1,11 @@
+import SavedData from "@/src/app/mycontact/page";
+
 export const ROUTES = {
   LOGIN: "/login",
   DAILYFORCAST: "/index/daily-forecast",
+  SINGLEREPOERT:'/singlereport',
+  SAVEDDATA:'/mycontact',
+  SAVEDREADINGS:'/accounts',
 
 };
 

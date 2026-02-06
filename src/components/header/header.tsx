@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { use, useState } from 'react';
 import { CONST } from '../../core/helper/const';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../assets/style.css';
@@ -19,6 +19,8 @@ import {
 } from 'lucide-react';
 import { Page } from '../../types';
 import Image from 'next/image';
+import Link from 'next/link';
+import { useUser } from '@/src/context/UserContext';
 
 interface HeaderProps {
   currentPage: Page;
@@ -28,12 +30,14 @@ interface HeaderProps {
 const Header:React.FC<HeaderProps> = ({ currentPage, setCurrentPage  }) => {
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const {userResponse} = useUser()
+
 
   const navItems = [
-    { label: 'READINGS & CHARTS', value: Page.DASHBOARD },
-    { label: 'SAVED READINGS', value: Page.SAVED_READINGS },
-    { label: 'SAVED DATA', value: Page.SAVED_DATA },
-    { label: 'SINGLE READINGS', value: Page.SINGLE_READINGS },
+    { label: 'READINGS & CHARTS', value: Page.DASHBOARD, route: CONST.ROUTES.DAILYFORCAST },
+    { label: 'SAVED READINGS', value: Page.SAVED_READINGS, route: CONST.ROUTES.SAVEDREADINGS },
+    { label: 'SAVED DATA', value: Page.SAVED_DATA, route: CONST.ROUTES.SAVEDDATA },
+    { label: 'SINGLE READINGS', value: Page.SINGLE_READINGS, route: CONST.ROUTES.SINGLEREPOERT },
   ];
 
   const handlePageChange = (page: Page) => {
@@ -49,7 +53,7 @@ const Header:React.FC<HeaderProps> = ({ currentPage, setCurrentPage  }) => {
       <div className="d-flex align-items-center justify-content-end py-2 px-3 top-bar gap-3">
         <div className="d-flex align-items-center gap-4 justify-content-end">
           <div className="d-flex align-items-center gap-2">GET THE APP <ChevronDown size={14} /></div>
-          <div className="d-flex align-items-center gap-2">ACTIVE USER: SARAVANA <ChevronDown size={14} /></div>
+          <div className="d-flex align-items-center gap-2">ACTIVE USER: {userResponse ? userResponse.data?.curnt_first_name.toUpperCase() : 'Guest'} <ChevronDown size={14} /></div>
           <div className="">ACCOUNT/USERS</div>
           <div className="">UPGRADE</div>
         </div>
@@ -78,12 +82,11 @@ const Header:React.FC<HeaderProps> = ({ currentPage, setCurrentPage  }) => {
               <nav>
                 <ul className="d-flex gap-4 p-0 m-0">
                   {navItems.map((item) => (
-                    <li
-                      key={item.value}
-                      onClick={() => handlePageChange(item.value)}
-                      className={`${currentPage === item.value ? 'active' : ''}`}>
-                      {item.label}
-                    </li>
+                    <Link href={item.route} style={{ textDecoration: 'none' }} key={item.value} onClick={() => handlePageChange(item.value)}>
+                      <li className={`${currentPage === item.value ? 'active' : ''}`}>
+                        {item.label}
+                      </li>
+                    </Link>
                   ))}
                   <li>
                     <button>

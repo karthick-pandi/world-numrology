@@ -1,1 +1,1 @@
-export const API_URL = "https://testsell2.worldnumerology.com/api_dev.php";
+export const API_URL = "https://your.worldnumerology.com/api_dev.php";
